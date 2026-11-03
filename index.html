@@ -4,614 +4,1421 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TikTok Growth Center</title>
+<title>Growth Studio</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+:root {
+  --bg:#090e1b;
+  --panel:#121b2d;
+  --panel2:#18243a;
+  --line:#293750;
+  --text:#f3f6ff;
+  --muted:#92a1b8;
+  --cyan:#28d7e5;
+  --purple:#9b7cff;
+  --pink:#f46ca8;
+  --orange:#ffad5c;
+  --green:#4cdda0;
 }
+
+* {box-sizing:border-box;margin:0;padding:0}
 
 body {
-  min-height: 100vh;
-  background: #080b12;
-  color: #fff;
-  padding: 22px 14px;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  min-height:100vh;
 }
 
-.container {
-  width: 100%;
-  max-width: 460px;
-  margin: 30px auto;
+button,input,select,textarea {font:inherit}
+button {cursor:pointer}
+
+.app {
+  display:flex;
+  min-height:100vh;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 25px;
+.sidebar {
+  width:245px;
+  background:#0e1627;
+  border-right:1px solid var(--line);
+  padding:24px 15px;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
 }
 
-.logo {
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: -1px;
+.brand {
+  font-size:23px;
+  font-weight:900;
+  padding:5px 12px 28px;
+  letter-spacing:-1px;
 }
 
-.logo span:first-child {
-  color: #25f4ee;
+.brand span {color:var(--cyan)}
+
+.nav-label {
+  font-size:10px;
+  color:#6e809b;
+  padding:12px;
+  letter-spacing:1.5px;
+  font-weight:bold;
 }
 
-.logo span:last-child {
-  color: #fe2c55;
+.nav-btn {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#9eabc0;
+  text-align:left;
+  margin-bottom:5px;
+  transition:.2s;
+  font-size:13px;
 }
 
-.header p {
-  color: #9299a8;
-  margin-top: 9px;
-  font-size: 13px;
+.nav-btn:hover,.nav-btn.active {
+  background:#1b2c42;
+  color:var(--cyan);
 }
 
-.card {
-  background: #141923;
-  border: 1px solid #282f3d;
-  border-radius: 18px;
-  padding: 23px;
-  box-shadow: 0 15px 40px #0006;
+.nav-icon {
+  width:23px;
+  text-align:center;
+  font-size:17px;
 }
 
-.card h2 {
-  font-size: 21px;
-  margin-bottom: 7px;
+.sidebar-bottom {
+  margin-top:auto;
+  background:linear-gradient(135deg,#183a50,#29244c);
+  padding:15px;
+  border-radius:13px;
+  font-size:12px;
+  color:#dce9ff;
+  line-height:1.7;
 }
 
-.description {
-  color: #9299a8;
-  font-size: 12px;
-  margin-bottom: 22px;
-  line-height: 1.5;
+.main {
+  margin-left:245px;
+  width:calc(100% - 245px);
+  padding:25px 30px 50px;
 }
 
-label {
-  display: block;
-  margin: 16px 0 8px;
-  font-size: 13px;
-  color: #d7dce5;
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:30px;
 }
 
-input, select, textarea {
-  width: 100%;
-  padding: 14px;
-  background: #0c111a;
-  color: white;
-  border: 1px solid #303a4b;
-  border-radius: 10px;
-  outline: none;
-  font-size: 14px;
+.top-title h2 {font-size:23px}
+.top-title p {
+  color:var(--muted);
+  font-size:12px;
+  margin-top:6px;
 }
 
-input:focus, select:focus, textarea:focus {
-  border-color: #25c9d0;
+.top-right {
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 90px;
+.online {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  color:#9de8c7;
+  background:#123329;
+  padding:9px 12px;
+  border-radius:30px;
 }
 
-.services {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 9px;
+.dot {
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
 }
 
-.service {
-  background: #0c111a;
-  border: 1px solid #303a4b;
-  padding: 15px 5px;
-  text-align: center;
-  border-radius: 11px;
-  cursor: pointer;
-  color: #c8ced9;
-  font-size: 12px;
+.avatar {
+  width:37px;height:37px;
+  display:grid;place-items:center;
+  border-radius:11px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  font-weight:bold;
 }
 
-.service input {
-  display: none;
+.page {display:none;animation:appear .35s ease}
+.page.active {display:block}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(8px)}
+  to {opacity:1;transform:translateY(0)}
 }
 
-.service:has(input:checked) {
-  border-color: #25d8d0;
-  background: #10252b;
-  color: #25f4ee;
+.welcome {
+  padding:25px;
+  border-radius:17px;
+  background:linear-gradient(115deg,#173b55,#33275a,#542c55);
+  border:1px solid #465174;
+  margin-bottom:22px;
+  position:relative;
+  overflow:hidden;
 }
 
-.service-icon {
-  display: block;
-  font-size: 22px;
-  margin-bottom: 8px;
+.welcome:after {
+  content:"";
+  position:absolute;
+  width:190px;height:190px;
+  background:#7a83ff22;
+  border-radius:50%;
+  right:-40px;top:-65px;
+  filter:blur(5px);
 }
 
-.generate-btn {
-  width: 100%;
-  border: none;
-  border-radius: 11px;
-  padding: 16px;
-  margin-top: 23px;
-  background: linear-gradient(100deg,#25c9d0,#fe2c55);
-  color: white;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
+.welcome h1 {
+  font-size:25px;
+  margin-bottom:9px;
+  position:relative;
+  z-index:1;
 }
 
-.generate-btn:disabled {
-  opacity: .6;
+.welcome p {
+  font-size:13px;
+  color:#d3d9ef;
+  max-width:550px;
+  line-height:1.7;
+  position:relative;
+  z-index:1;
 }
 
-.panel {
-  display: none;
-  margin-top: 20px;
-  background: #141923;
-  border: 1px solid #282f3d;
-  border-radius: 18px;
-  padding: 23px;
+.section-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:25px 0 15px;
 }
 
-.panel h2 {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 8px;
+.section-heading h3 {font-size:16px}
+.section-heading span {
+  color:var(--muted);
+  font-size:11px;
 }
 
-.panel-sub {
-  text-align: center;
-  color: #9ca5b5;
-  font-size: 12px;
-  line-height: 1.5;
-  margin-bottom: 23px;
+.stats-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
 }
 
-.step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 0;
-  border-bottom: 1px solid #293140;
-  font-size: 13px;
-  color: #b4bdcb;
+.stat-card {
+  padding:19px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  transition:.25s;
 }
 
-.step:last-child {
-  border: none;
+.stat-card:hover {
+  transform:translateY(-4px);
+  border-color:#63769c;
 }
 
-.step-icon {
-  width: 29px;
-  height: 29px;
-  display: grid;
-  place-items: center;
-  background: #242e3d;
-  border-radius: 50%;
-  flex-shrink: 0;
+.stat-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.step.done .step-icon {
-  background: #123d35;
-  color: #4ce3a5;
+.stat-icon {
+  width:37px;height:37px;
+  display:grid;place-items:center;
+  border-radius:11px;
+  font-size:19px;
 }
 
-.step.active {
-  color: #25f4ee;
+.cyan {background:#123b47;color:var(--cyan)}
+.purple {background:#30264f;color:var(--purple)}
+.pink {background:#48283d;color:var(--pink)}
+.orange {background:#49341f;color:var(--orange)}
+
+.stat-card h2 {
+  font-size:25px;
+  margin:16px 0 5px;
 }
 
-.spinner {
-  width: 19px;
-  height: 19px;
-  border: 2px solid #354253;
-  border-top-color: #25f4ee;
-  border-radius: 50%;
-  animation: spin .8s linear infinite;
+.stat-card p {
+  color:var(--muted);
+  font-size:11px;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.stat-card small {
+  display:block;
+  margin-top:12px;
+  color:var(--green);
+  font-size:10px;
 }
 
-.result-box {
-  text-align: center;
+.content-grid {
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:15px;
+  margin-top:15px;
 }
 
-.success-icon {
-  font-size: 45px;
-  margin-bottom: 12px;
+.box {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
 }
 
-.timer {
-  display: flex;
-  justify-content: center;
-  gap: 9px;
-  margin: 23px 0;
+.box h3 {font-size:15px;margin-bottom:17px}
+
+.chart {
+  height:190px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-around;
+  gap:12px;
+  border-bottom:1px solid #344057;
+  padding:15px 5px 0;
 }
 
-.time-unit {
-  background: #0b111b;
-  border: 1px solid #303b4d;
-  border-radius: 10px;
-  padding: 13px 9px;
-  min-width: 65px;
+.bar-group {
+  flex:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
 }
 
-.time-unit strong {
-  display: block;
-  color: #25f4ee;
-  font-size: 23px;
+.bar {
+  width:100%;
+  max-width:36px;
+  border-radius:7px 7px 2px 2px;
+  min-height:5px;
+  animation:grow .8s ease;
 }
 
-.time-unit span {
-  font-size: 10px;
-  color: #8f9aaa;
+@keyframes grow {
+  from {height:0}
 }
 
-.result-info {
-  background: #0c111a;
-  border-radius: 11px;
-  padding: 15px;
-  text-align: left;
-  font-size: 13px;
-  line-height: 1.9;
-  color: #c4cbd6;
+.bar-group small {
+  font-size:10px;
+  color:var(--muted);
 }
 
-.result-info strong {
-  color: white;
+.activity-item {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid #29364c;
+  font-size:12px;
 }
 
-.prank-note {
-  background: #2b2113;
-  border: 1px solid #70532b;
-  color: #ffd28a;
-  border-radius: 10px;
-  padding: 13px;
-  margin-top: 17px;
-  font-size: 12px;
-  line-height: 1.6;
+.activity-item:last-child {border:0}
+.activity-icon {
+  width:34px;height:34px;
+  display:grid;place-items:center;
+  border-radius:10px;
+  background:#202e43;
 }
 
-.back-btn {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #384458;
-  background: #202938;
-  color: white;
-  border-radius: 10px;
-  margin-top: 17px;
-  cursor: pointer;
+.activity-item p {color:#dce4f2}
+.activity-item small {
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
 }
 
-@media(max-width:360px) {
-  .card, .panel { padding: 17px; }
-  .time-unit { min-width: 57px; }
+.form-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.field {margin-bottom:17px}
+.field.full {grid-column:1/-1}
+
+.field label {
+  display:block;
+  font-size:12px;
+  margin-bottom:8px;
+  color:#c4d0e3;
+}
+
+.field input,.field select,.field textarea {
+  width:100%;
+  background:#0b1424;
+  border:1px solid #34435b;
+  border-radius:10px;
+  color:white;
+  padding:13px;
+  outline:none;
+}
+
+.field input:focus,.field select:focus,.field textarea:focus {
+  border-color:var(--cyan);
+}
+
+.field textarea {
+  min-height:95px;
+  resize:vertical;
+}
+
+.service-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.service-option {
+  padding:17px 8px;
+  border:1px solid #34435b;
+  background:#0d1728;
+  border-radius:12px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.service-option:hover {
+  border-color:var(--cyan);
+  transform:translateY(-3px);
+}
+
+.service-option.selected {
+  border-color:var(--cyan);
+  background:#12333d;
+}
+
+.service-option .emoji {
+  display:block;
+  font-size:25px;
+  margin-bottom:9px;
+}
+
+.service-option strong {font-size:12px}
+
+.primary-btn {
+  border:0;
+  padding:14px 20px;
+  border-radius:10px;
+  background:linear-gradient(100deg,#24cdd7,#786cff);
+  color:white;
+  font-weight:bold;
+  font-size:13px;
+  transition:.2s;
+}
+
+.primary-btn:hover {
+  transform:translateY(-2px);
+  filter:brightness(1.12);
+}
+
+.secondary-btn {
+  border:1px solid #3b4a62;
+  padding:12px 17px;
+  border-radius:10px;
+  background:#202b3e;
+  color:white;
+}
+
+.full-btn {width:100%}
+
+.notice {
+  color:#aebbd0;
+  font-size:11px;
+  line-height:1.7;
+  padding:12px;
+  background:#17253a;
+  border-radius:9px;
+  margin-top:14px;
+}
+
+.progress-list {margin-top:22px}
+
+.progress-step {
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+  color:#a7b5c9;
+  font-size:13px;
+}
+
+.step-circle {
+  width:30px;height:30px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:#27344a;
+}
+
+.progress-step.done {color:var(--green)}
+.progress-step.done .step-circle {background:#164331}
+
+.spin {
+  width:16px;height:16px;
+  border:2px solid #53647b;
+  border-top-color:var(--cyan);
+  border-radius:50%;
+  animation:rotate .7s linear infinite;
+}
+
+@keyframes rotate {to{transform:rotate(360deg)}}
+
+.result-timer {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:22px 0;
+}
+
+.time {
+  min-width:75px;
+  text-align:center;
+  padding:14px 8px;
+  background:#0d1728;
+  border:1px solid var(--line);
+  border-radius:11px;
+}
+
+.time strong {
+  display:block;
+  font-size:25px;
+  color:var(--cyan);
+}
+
+.time span {
+  color:var(--muted);
+  font-size:10px;
+}
+
+.table-wrap {overflow-x:auto}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  min-width:450px;
+}
+
+th,td {
+  padding:14px 10px;
+  text-align:left;
+  border-bottom:1px solid var(--line);
+}
+
+th {color:var(--muted);font-weight:500}
+td {color:#dce5f4}
+
+.tag {
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#193c35;
+  color:var(--green);
+  font-size:10px;
+}
+
+.empty {
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+  padding:35px 10px;
+}
+
+.faq {
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.faq strong {font-size:13px}
+.faq p {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:8px;
+}
+
+.mobile-menu {display:none}
+
+@media(max-width:1050px) {
+  .stats-grid {grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:750px) {
+  .sidebar {
+    width:100%;
+    height:auto;
+    inset:auto 0 0;
+    padding:8px;
+    border-right:0;
+    border-top:1px solid var(--line);
+    flex-direction:row;
+    justify-content:space-around;
+    background:#0e1627;
+  }
+
+  .brand,.nav-label,.sidebar-bottom {display:none}
+
+  .nav-btn {
+    width:auto;
+    flex:1;
+    margin:0;
+    padding:10px 3px;
+    justify-content:center;
+    flex-direction:column;
+    gap:4px;
+    font-size:9px;
+  }
+
+  .nav-icon {font-size:18px}
+
+  .main {
+    margin-left:0;
+    width:100%;
+    padding:20px 14px 95px;
+  }
+
+  .content-grid {grid-template-columns:1fr}
+  .topbar {margin-bottom:20px}
+}
+
+@media(max-width:430px) {
+  .stats-grid {grid-template-columns:1fr 1fr;gap:9px}
+  .stat-card {padding:13px}
+  .stat-card h2 {font-size:21px}
+  .form-grid {grid-template-columns:1fr}
+  .field.full {grid-column:auto}
+  .service-grid {gap:7px}
+  .service-option {padding:13px 3px}
+  .welcome {padding:19px}
+  .welcome h1 {font-size:21px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-  <div class="header">
-    <div class="logo">
-      <span>t</span><span>k</span>
-    </div>
-    <p>Growth Center · Account Preview</p>
+<aside class="sidebar">
+
+  <div class="brand">Growth<span>Studio.</span></div>
+
+  <div class="nav-label">WORKSPACE</div>
+
+  <button class="nav-btn active" data-page="dashboard">
+    <span class="nav-icon">▦</span> Dashboard
+  </button>
+
+  <button class="nav-btn" data-page="services">
+    <span class="nav-icon">🚀</span> Growth Center
+  </button>
+
+  <button class="nav-btn" data-page="history">
+    <span class="nav-icon">▤</span> Request History
+  </button>
+
+  <div class="nav-label">MANAGEMENT</div>
+
+  <button class="nav-btn" data-page="analytics">
+    <span class="nav-icon">◩</span> Analytics
+  </button>
+
+  <button class="nav-btn" data-page="activity">
+    <span class="nav-icon">◷</span> Activity Center
+  </button>
+
+  <div class="nav-label">SUPPORT</div>
+
+  <button class="nav-btn" data-page="help">
+    <span class="nav-icon">?</span> Help Center
+  </button>
+
+  <button class="nav-btn" data-page="settings">
+    <span class="nav-icon">⚙</span> Settings
+  </button>
+
+  <div class="sidebar-bottom">
+    <strong>Growth Studio</strong><br>
+    Personal preview workspace<br>
+    <span style="color:#9ce8e3">● All systems ready</span>
   </div>
 
-  <div class="card" id="formCard">
+</aside>
 
-    <h2>Boost Your Profile</h2>
-    <p class="description">
-      Select your preferred service and enter your account details.
+<main class="main">
+
+<div class="topbar">
+  <div class="top-title">
+    <h2 id="pageTitle">Dashboard</h2>
+    <p id="pageSubtitle">Your account overview and workspace</p>
+  </div>
+
+  <div class="top-right">
+    <div class="online"><span class="dot"></span> Online</div>
+    <div class="avatar">GS</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="dashboard">
+
+  <div class="welcome">
+    <h1>Welcome to Growth Studio ✨</h1>
+    <p>
+      Manage your service selections, explore your workspace
+      and review your personal request previews.
+    </p>
+  </div>
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-icon cyan">👥</span>
+        <span style="color:var(--green);font-size:11px">Overview</span>
+      </div>
+      <h2 id="totalRequests">0</h2>
+      <p>Total requests</p>
+      <small>Local preview records</small>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-icon purple">❤️</span>
+        <span style="color:var(--purple);font-size:11px">Service</span>
+      </div>
+      <h2 id="followerRequests">0</h2>
+      <p>Follower selections</p>
+      <small>Preview activity</small>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-icon pink">▶</span>
+        <span style="color:var(--pink);font-size:11px">Service</span>
+      </div>
+      <h2 id="viewRequests">0</h2>
+      <p>View selections</p>
+      <small>Preview activity</small>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-icon orange">⚡</span>
+        <span style="color:var(--orange);font-size:11px">Service</span>
+      </div>
+      <h2 id="likeRequests">0</h2>
+      <p>Like selections</p>
+      <small>Preview activity</small>
+    </div>
+
+  </div>
+
+  <div class="content-grid">
+
+    <div class="box">
+      <h3>Workspace Activity</h3>
+
+      <div class="chart">
+        <div class="bar-group">
+          <div class="bar" style="height:35%;background:#28d7e5"></div>
+          <small>Mon</small>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height:65%;background:#9b7cff"></div>
+          <small>Tue</small>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height:45%;background:#f46ca8"></div>
+          <small>Wed</small>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height:85%;background:#ffad5c"></div>
+          <small>Thu</small>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height:58%;background:#4cdda0"></div>
+          <small>Fri</small>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height:75%;background:#28d7e5"></div>
+          <small>Sat</small>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height:40%;background:#9b7cff"></div>
+          <small>Sun</small>
+        </div>
+      </div>
+      <p style="font-size:10px;color:var(--muted);margin-top:12px">
+        Illustrative workspace activity chart
+      </p>
+    </div>
+
+    <div class="box">
+      <h3>Recent Activity</h3>
+      <div id="recentActivity">
+        <div class="empty">No activity yet. Start with Growth Center.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-heading">
+    <h3>Quick Actions</h3>
+    <span>Explore workspace</span>
+  </div>
+
+  <div class="stats-grid">
+    <button class="stat-card" onclick="navigate('services')" style="text-align:left;color:white">
+      <span class="stat-icon cyan">🚀</span>
+      <h2 style="font-size:16px">New Request</h2>
+      <p>Open growth center</p>
+    </button>
+
+    <button class="stat-card" onclick="navigate('history')" style="text-align:left;color:white">
+      <span class="stat-icon purple">📋</span>
+      <h2 style="font-size:16px">View History</h2>
+      <p>Review local records</p>
+    </button>
+
+    <button class="stat-card" onclick="navigate('analytics')" style="text-align:left;color:white">
+      <span class="stat-icon pink">📊</span>
+      <h2 style="font-size:16px">Analytics</h2>
+      <p>View breakdown</p>
+    </button>
+
+    <button class="stat-card" onclick="navigate('help')" style="text-align:left;color:white">
+      <span class="stat-icon orange">💡</span>
+      <h2 style="font-size:16px">Get Help</h2>
+      <p>Read information</p>
+    </button>
+  </div>
+
+</section>
+
+<!-- GROWTH CENTER -->
+
+<section class="page" id="services">
+
+  <div class="box">
+    <h3>🚀 Create New Request</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:22px">
+      Configure your TikTok service preview.
     </p>
 
-    <form id="growthForm">
+    <form id="requestForm">
 
-      <label for="username">TikTok Username</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="@username"
-        maxlength="30"
-        required
-      >
+      <div class="form-grid">
 
-      <label>Select Service</label>
+        <div class="field full">
+          <label>TikTok Username</label>
+          <input id="username" placeholder="@yourusername" maxlength="30" required>
+        </div>
 
-      <div class="services">
+        <div class="field full">
+          <label>Select Service</label>
 
-        <label class="service">
-          <input type="radio" name="service" value="Followers" checked>
-          <span class="service-icon">👥</span>
-          Followers
-        </label>
+          <div class="service-grid">
+            <div class="service-option selected" data-service="Followers">
+              <span class="emoji">👥</span>
+              <strong>Followers</strong>
+            </div>
 
-        <label class="service">
-          <input type="radio" name="service" value="Likes">
-          <span class="service-icon">❤️</span>
-          Likes
-        </label>
+            <div class="service-option" data-service="Likes">
+              <span class="emoji">❤️</span>
+              <strong>Likes</strong>
+            </div>
 
-        <label class="service">
-          <input type="radio" name="service" value="Views">
-          <span class="service-icon">▶️</span>
-          Views
-        </label>
+            <div class="service-option" data-service="Views">
+              <span class="emoji">▶️</span>
+              <strong>Views</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Quantity</label>
+          <select id="quantity">
+            <option value="1000">1,000</option>
+            <option value="5000">5,000</option>
+            <option value="10000">10,000</option>
+            <option value="25000">25,000</option>
+            <option value="50000">50,000</option>
+            <option value="100000">100,000</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Request Type</label>
+          <select id="requestType">
+            <option>Standard Preview</option>
+            <option>Express Preview</option>
+            <option>Custom Preview</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Feedback / Notes</label>
+          <textarea id="feedback" maxlength="1000"
+            placeholder="Write your feedback here..." required></textarea>
+        </div>
 
       </div>
 
-      <label for="quantity">Select Quantity</label>
-      <select id="quantity">
-        <option value="1000">1,000</option>
-        <option value="5000">5,000</option>
-        <option value="10000">10,000</option>
-        <option value="25000">25,000</option>
-        <option value="50000">50,000</option>
-        <option value="100000">100,000</option>
-      </select>
+      <div class="notice">
+        Your username and feedback will be sent to the website
+        administrator through Telegram when you submit.
+        All displayed quantities and progress are local previews;
+        no TikTok account changes are made.
+      </div>
 
-      <label for="feedback">Feedback</label>
-      <textarea
-        id="feedback"
-        placeholder="Write your feedback..."
-        maxlength="1000"
-        required
-      ></textarea>
-
-      <button class="generate-btn" id="generateBtn" type="submit">
-        GENERATE NOW →
+      <button class="primary-btn full-btn" id="submitBtn" type="submit">
+        GENERATE REQUEST →
       </button>
 
     </form>
   </div>
 
-  <div class="panel" id="loadingPanel">
+</section>
 
-    <h2>Processing Request</h2>
-    <p class="panel-sub">
-      Please wait while your preview is being prepared.
+<!-- PROCESSING -->
+
+<section class="page" id="processing">
+
+  <div class="box">
+    <h3 style="text-align:center">Preparing Your Request</h3>
+    <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:8px">
+      Please wait while your preview is prepared.
     </p>
 
-    <div id="steps">
+    <div class="progress-list" id="progressSteps">
 
-      <div class="step" id="step1">
-        <div class="step-icon">1</div>
-        <span>Checking username</span>
+      <div class="progress-step" id="pstep1">
+        <span class="step-circle">1</span>
+        <span>Checking username format</span>
       </div>
 
-      <div class="step" id="step2">
-        <div class="step-icon">2</div>
-        <span>Preparing selected service</span>
+      <div class="progress-step" id="pstep2">
+        <span class="step-circle">2</span>
+        <span>Preparing service selection</span>
       </div>
 
-      <div class="step" id="step3">
-        <div class="step-icon">3</div>
-        <span>Finalizing request preview</span>
+      <div class="progress-step" id="pstep3">
+        <span class="step-circle">3</span>
+        <span>Building request preview</span>
+      </div>
+
+      <div class="progress-step" id="pstep4">
+        <span class="step-circle">4</span>
+        <span>Finalizing local preview</span>
       </div>
 
     </div>
+
+    <div style="height:8px;background:#26354b;border-radius:20px;margin-top:20px;overflow:hidden">
+      <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#28d7e5,#9b7cff,#f46ca8);transition:width .4s"></div>
+    </div>
+
+    <p id="progressText" style="text-align:center;color:var(--cyan);font-size:12px;margin-top:12px">
+      Starting...
+    </p>
   </div>
 
-  <div class="panel" id="resultPanel">
+</section>
 
-    <div class="result-box">
+<!-- RESULT -->
 
-      <div class="success-icon">✓</div>
+<section class="page" id="result">
 
-      <h2>Request Preview Ready</h2>
+  <div class="box" style="text-align:center">
+    <div style="font-size:45px;margin-bottom:12px">✨</div>
+    <h3>Request Preview Ready</h3>
 
-      <p class="panel-sub">
-        Your selected request has been prepared.
-      </p>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">
+      Your selected options are ready for review.
+    </p>
 
-      <div class="result-info">
-        Username: <strong id="finalUsername"></strong><br>
-        Service: <strong id="finalService"></strong><br>
-        Quantity: <strong id="finalQuantity"></strong>
-      </div>
+    <div class="result-timer">
+      <div class="time"><strong id="hh">24</strong><span>HOURS</span></div>
+      <div class="time"><strong id="mm">00</strong><span>MINUTES</span></div>
+      <div class="time"><strong id="ss">00</strong><span>SECONDS</span></div>
+    </div>
 
-      <h3 style="margin-top:25px;font-size:15px;">
-        24 Hour Countdown Preview
-      </h3>
+    <div class="notice" style="text-align:left">
+      <strong>Prank countdown preview:</strong>
+      This timer is a visual effect only. It does not represent
+      a real delivery schedule, and no followers, likes or views
+      will be added to the TikTok account.
+    </div>
 
-      <div class="timer">
+    <div class="section-heading"><h3>Request Details</h3></div>
 
-        <div class="time-unit">
-          <strong id="hours">24</strong>
-          <span>HOURS</span>
-        </div>
+    <div class="activity-item">
+      <span class="activity-icon">👤</span>
+      <div><p id="resultUser"></p><small>Username</small></div>
+    </div>
 
-        <div class="time-unit">
-          <strong id="minutes">00</strong>
-          <span>MINUTES</span>
-        </div>
+    <div class="activity-item">
+      <span class="activity-icon">🎯</span>
+      <div><p id="resultService"></p><small>Selected service</small></div>
+    </div>
 
-        <div class="time-unit">
-          <strong id="seconds">00</strong>
-          <span>SECONDS</span>
-        </div>
+    <div class="activity-item">
+      <span class="activity-icon">🔢</span>
+      <div><p id="resultQuantity"></p><small>Selected quantity</small></div>
+    </div>
 
-      </div>
+    <button class="primary-btn full-btn" style="margin-top:20px"
+      onclick="navigate('dashboard')">
+      RETURN TO DASHBOARD
+    </button>
 
-      <div class="prank-note">
-        <strong>Prank Preview:</strong> This countdown is only a visual
-        prank effect. No real followers, likes or views will be
-        delivered to your TikTok account.
-      </div>
+  </div>
 
-      <button class="back-btn" onclick="resetPage()">
-        BACK TO HOME
-      </button>
+</section>
 
+<!-- HISTORY -->
+
+<section class="page" id="history">
+  <div class="box">
+    <h3>Request History</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:18px">
+      Your requests stored in this browser.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Service</th>
+            <th>Quantity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="historyRows"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="historyEmpty">No requests available yet.</div>
+  </div>
+</section>
+
+<!-- ANALYTICS -->
+
+<section class="page" id="analytics">
+  <div class="welcome">
+    <h1>Analytics Overview 📊</h1>
+    <p>Explore the breakdown of your local preview requests.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon cyan">📋</span>
+      <h2 id="aTotal">0</h2>
+      <p>Total selections</p>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon purple">👥</span>
+      <h2 id="aFollowers">0</h2>
+      <p>Follower requests</p>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon pink">❤️</span>
+      <h2 id="aLikes">0</h2>
+      <p>Like requests</p>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon orange">▶️</span>
+      <h2 id="aViews">0</h2>
+      <p>View requests</p>
     </div>
   </div>
 
+  <div class="box" style="margin-top:18px">
+    <h3>Service Breakdown</h3>
+    <div id="breakdown" style="line-height:2;font-size:13px;color:var(--muted)">
+      No data yet.
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY -->
+
+<section class="page" id="activity">
+  <div class="box">
+    <h3>Activity Center</h3>
+    <div id="allActivity">
+      <div class="empty">Your recent activity will appear here.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HELP -->
+
+<section class="page" id="help">
+  <div class="box">
+    <h3>Help Center</h3>
+
+    <div class="faq">
+      <strong>How do I create a request?</strong>
+      <p>Open Growth Center, enter your username, choose a service and quantity, then submit your feedback.</p>
+    </div>
+
+    <div class="faq">
+      <strong>What services can I preview?</strong>
+      <p>Followers, Likes and Views are available as local preview selections.</p>
+    </div>
+
+    <div class="faq">
+      <strong>Does this change my TikTok account?</strong>
+      <p>No. This application creates local previews only. It does not add followers, likes or views.</p>
+    </div>
+
+    <div class="faq">
+      <strong>Where is my request history stored?</strong>
+      <p>History is stored locally in your browser on this device.</p>
+    </div>
+
+    <div class="faq">
+      <strong>What information goes to Telegram?</strong>
+      <p>Only the username and feedback you submit are sent to the website administrator.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SETTINGS -->
+
+<section class="page" id="settings">
+  <div class="box">
+    <h3>Workspace Settings</h3>
+
+    <div class="faq">
+      <strong>Application appearance</strong>
+      <p>Current theme: Midnight Aurora</p>
+    </div>
+
+    <div class="faq">
+      <strong>Local history</strong>
+      <p>Clear your request records stored in this browser.</p>
+      <button class="secondary-btn" onclick="clearHistory()">Clear History</button>
+    </div>
+
+    <div class="faq">
+      <strong>Application information</strong>
+      <p>Growth Studio · Personal preview workspace</p>
+    </div>
+  </div>
+</section>
+
+</main>
 </div>
 
 <script>
-const form = document.getElementById("growthForm");
-const formCard = document.getElementById("formCard");
-const loadingPanel = document.getElementById("loadingPanel");
-const resultPanel = document.getElementById("resultPanel");
-const generateBtn = document.getElementById("generateBtn");
+const titles = {
+ dashboard:["Dashboard","Your account overview and workspace"],
+ services:["Growth Center","Configure a new service preview"],
+ processing:["Processing","Preparing your local request preview"],
+ result:["Request Preview","Your request details"],
+ history:["Request History","Review your previous selections"],
+ analytics:["Analytics","Your workspace activity breakdown"],
+ activity:["Activity Center","Recent workspace events"],
+ help:["Help Center","Frequently asked questions"],
+ settings:["Settings","Manage your workspace"]
+};
 
+let selectedService = "Followers";
+let requests = [];
 let countdownInterval;
+let pendingRequest = null;
 
-function selectedService() {
-  return document.querySelector(
-    'input[name="service"]:checked'
-  ).value;
+function navigate(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(page).classList.add("active");
+
+  document.querySelectorAll(".nav-btn").forEach(b => {
+    b.classList.toggle("active",b.dataset.page === page);
+  });
+
+  document.getElementById("pageTitle").textContent = titles[page][0];
+  document.getElementById("pageSubtitle").textContent = titles[page][1];
+
+  if(page === "history") renderHistory();
+  if(page === "analytics") renderAnalytics();
+  if(page === "activity") renderActivity();
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function showStep(number) {
-  for (let i = 1; i <= 3; i++) {
-    const step = document.getElementById("step" + i);
-    const icon = step.querySelector(".step-icon");
+document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.addEventListener("click",() => navigate(btn.dataset.page));
+});
 
-    step.classList.remove("done", "active");
+document.querySelectorAll(".service-option").forEach(option => {
+  option.addEventListener("click",() => {
+    document.querySelectorAll(".service-option").forEach(o => o.classList.remove("selected"));
+    option.classList.add("selected");
+    selectedService = option.dataset.service;
+  });
+});
 
-    if (i < number) {
+function updateStats() {
+  const followers = requests.filter(r => r.service === "Followers").length;
+  const likes = requests.filter(r => r.service === "Likes").length;
+  const views = requests.filter(r => r.service === "Views").length;
+
+  document.getElementById("totalRequests").textContent = requests.length;
+  document.getElementById("followerRequests").textContent = followers;
+  document.getElementById("likeRequests").textContent = likes;
+  document.getElementById("viewRequests").textContent = views;
+}
+
+function renderHistory() {
+  const body = document.getElementById("historyRows");
+  const empty = document.getElementById("historyEmpty");
+
+  body.innerHTML = "";
+
+  empty.style.display = requests.length ? "none" : "block";
+
+  requests.slice().reverse().forEach(r => {
+    const row = document.createElement("tr");
+
+    [r.username,r.service,Number(r.quantity).toLocaleString()].forEach(value => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+
+    const statusCell = document.createElement("td");
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = "Preview";
+    statusCell.appendChild(tag);
+    row.appendChild(statusCell);
+
+    body.appendChild(row);
+  });
+}
+
+function renderAnalytics() {
+  const count = service => requests.filter(r => r.service === service).length;
+
+  document.getElementById("aTotal").textContent = requests.length;
+  document.getElementById("aFollowers").textContent = count("Followers");
+  document.getElementById("aLikes").textContent = count("Likes");
+  document.getElementById("aViews").textContent = count("Views");
+
+  document.getElementById("breakdown").textContent =
+    `Followers: ${count("Followers")} · Likes: ${count("Likes")} · Views: ${count("Views")}`;
+}
+
+function renderActivity() {
+  const html = requests.slice().reverse().map(r => `
+    <div class="activity-item">
+      <span class="activity-icon">⚡</span>
+      <div>
+        <p>${escapeHTML(r.service)} preview created</p>
+        <small>@${escapeHTML(r.username)} · ${Number(r.quantity).toLocaleString()}</small>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("allActivity").innerHTML =
+    html || '<div class="empty">Your recent activity will appear here.</div>';
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
+}
+
+function updateRecent() {
+  const html = requests.slice(-4).reverse().map(r => `
+    <div class="activity-item">
+      <span class="activity-icon">✦</span>
+      <div>
+        <p>${escapeHTML(r.service)} preview</p>
+        <small>@${escapeHTML(r.username)}</small>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("recentActivity").innerHTML =
+    html || '<div class="empty">No activity yet. Start with Growth Center.</div>';
+}
+
+function clearHistory() {
+  requests = [];
+  try {
+    localStorage.removeItem("growthStudioRequests");
+  } catch(e) {}
+  updateStats();
+  updateRecent();
+  renderHistory();
+  renderAnalytics();
+  renderActivity();
+}
+
+function showStep(n) {
+  for(let i=1;i<=4;i++) {
+    const step = document.getElementById("pstep"+i);
+    const circle = step.querySelector(".step-circle");
+
+    step.classList.remove("done");
+
+    if(i<n) {
       step.classList.add("done");
-      icon.textContent = "✓";
-    } else if (i === number) {
-      step.classList.add("active");
-      icon.innerHTML = '<div class="spinner"></div>';
+      circle.textContent = "✓";
+    } else if(i===n) {
+      circle.innerHTML = '<div class="spin"></div>';
     } else {
-      icon.textContent = i;
+      circle.textContent = i;
     }
   }
+
+  document.getElementById("progressBar").style.width =
+    (n/4*100)+"%";
+
+  document.getElementById("progressText").textContent =
+    "Step "+n+" of 4";
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve,ms));
 }
 
 function startCountdown() {
-  let remaining = 24 * 60 * 60;
+  let secondsLeft = 86400;
+
+  clearInterval(countdownInterval);
 
   function update() {
-    const hours = Math.floor(remaining / 3600);
-    const minutes = Math.floor((remaining % 3600) / 60);
-    const seconds = remaining % 60;
+    const h = Math.floor(secondsLeft/3600);
+    const m = Math.floor((secondsLeft%3600)/60);
+    const s = secondsLeft%60;
 
-    document.getElementById("hours").textContent =
-      String(hours).padStart(2, "0");
+    document.getElementById("hh").textContent = String(h).padStart(2,"0");
+    document.getElementById("mm").textContent = String(m).padStart(2,"0");
+    document.getElementById("ss").textContent = String(s).padStart(2,"0");
 
-    document.getElementById("minutes").textContent =
-      String(minutes).padStart(2, "0");
-
-    document.getElementById("seconds").textContent =
-      String(seconds).padStart(2, "0");
-
-    if (remaining <= 0) {
-      clearInterval(countdownInterval);
-      return;
-    }
-
-    remaining--;
+    if(secondsLeft > 0) secondsLeft--;
+    else clearInterval(countdownInterval);
   }
 
   update();
-  countdownInterval = setInterval(update, 1000);
+  countdownInterval = setInterval(update,1000);
 }
 
-form.addEventListener("submit", async function(event) {
+document.getElementById("requestForm").addEventListener("submit", async event => {
   event.preventDefault();
 
-  const username = document.getElementById("username")
-    .value.trim().replace(/^@/, "");
-
-  const feedback = document.getElementById("feedback")
-    .value.trim();
-
-  const service = selectedService();
+  const username = document.getElementById("username").value.trim().replace(/^@/,"");
+  const feedback = document.getElementById("feedback").value.trim();
   const quantity = document.getElementById("quantity").value;
+  const requestType = document.getElementById("requestType").value;
 
-  if (!/^[a-zA-Z0-9._]{1,30}$/.test(username)) {
-    alert("Please enter a valid TikTok username.");
+  if(!/^[a-zA-Z0-9._]{1,30}$/.test(username)) {
+    alert("Enter a valid username.");
     return;
   }
 
-  if (!feedback) {
+  if(!feedback) {
     alert("Please enter your feedback.");
     return;
   }
 
-  generateBtn.disabled = true;
-  formCard.style.display = "none";
-  loadingPanel.style.display = "block";
+  pendingRequest = {
+    username,
+    feedback,
+    quantity,
+    service:selectedService,
+    requestType
+  };
 
-  showStep(1);
+  navigate("processing");
 
-  const notificationPromise = fetch("/api/notify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      username: username,
-      feedback: feedback
+  const notification = fetch("/api/notify", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      username:username,
+      feedback:feedback
     })
   }).then(async response => {
     const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error("Notification failed");
-    }
-
+    if(!response.ok || !data.success) throw new Error("Notification failed");
     return data;
   });
 
-  showStep(1);
-  await new Promise(resolve => setTimeout(resolve, 1800));
-
-  showStep(2);
-  await new Promise(resolve => setTimeout(resolve, 1800));
-
-  showStep(3);
-  await new Promise(resolve => setTimeout(resolve, 1800));
-
   try {
-    await notificationPromise;
+    for(let i=1;i<=4;i++) {
+      showStep(i);
+      await wait(1400);
+    }
 
-    document.getElementById("finalUsername").textContent =
-      "@" + username;
+    await notification;
 
-    document.getElementById("finalService").textContent =
-      service;
+    requests.push({
+      username,
+      service:selectedService,
+      quantity,
+      requestType,
+      time:new Date().toISOString()
+    });
 
-    document.getElementById("finalQuantity").textContent =
+    try {
+      localStorage.setItem("growthStudioRequests",JSON.stringify(requests));
+    } catch(e) {}
+
+    updateStats();
+    updateRecent();
+
+    document.getElementById("resultUser").textContent = "@"+username;
+    document.getElementById("resultService").textContent = selectedService;
+    document.getElementById("resultQuantity").textContent =
       Number(quantity).toLocaleString();
 
-    loadingPanel.style.display = "none";
-    resultPanel.style.display = "block";
-
+    navigate("result");
     startCountdown();
 
-  } catch (error) {
-    loadingPanel.style.display = "none";
-    formCard.style.display = "block";
-    generateBtn.disabled = false;
-
-    alert("Could not submit your feedback. Please try again.");
+  } catch(error) {
+    alert("Feedback could not be submitted. Please try again.");
+    navigate("services");
   }
 });
 
-function resetPage() {
-  clearInterval(countdownInterval);
-
-  resultPanel.style.display = "none";
-  loadingPanel.style.display = "none";
-  formCard.style.display = "block";
-
-  form.reset();
-  generateBtn.disabled = false;
+try {
+  const saved = JSON.parse(localStorage.getItem("growthStudioRequests") || "[]");
+  if(Array.isArray(saved)) requests = saved;
+} catch(e) {
+  requests = [];
 }
+
+updateStats();
+updateRecent();
 </script>
 
 </body>
