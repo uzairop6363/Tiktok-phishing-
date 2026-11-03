@@ -1,6 +1,5 @@
 
 export default async function handler(req, res) {
-
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed"
@@ -8,24 +7,11 @@ export default async function handler(req, res) {
   }
 
   try {
+    const { username, feedback } = req.body || {};
 
-    const {
-      username,
-      service,
-      quantity,
-      feedback
-    } = req.body || {};
-
-    // Validate submitted information
     if (
       typeof username !== "string" ||
       !/^[a-zA-Z0-9._]{1,30}$/.test(username) ||
-
-      !["Followers", "Likes", "Views"].includes(service) ||
-
-      ![1000, 5000, 10000, 50000, 100000]
-        .includes(Number(quantity)) ||
-
       typeof feedback !== "string" ||
       !feedback.trim() ||
       feedback.length > 1000
@@ -35,7 +21,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Vercel environment variables
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -45,37 +30,37 @@ export default async function handler(req, res) {
       });
     }
 
-    // Pakistan local time
-    const time = new Date().toLocaleString("en-PK", {
-      timeZone: "Asia/Karachi"
-    });
+    const message = `
+━━━━━━━━━━━━━━━━━━
+       C9 UZAIR
+     NEW FEEDBACK
+━━━━━━━━━━━━━━━━━━
 
-    // Telegram notification
-    const message =
-`🔔 NEW WEBSITE REQUEST
-
-👤 Username: @${username}
-
-📦 Service: ${service}
-
-🔢 Quantity: ${Number(quantity).toLocaleString()}
+👤 Username:
+@${username}
 
 💬 Feedback:
 ${feedback.trim()}
 
-🕒 Time: ${time}
+━━━━━━━━━━━━━━━━━━
+👑 CREDIT: C9 UZAIR
 
-⚡ C9 UZAIR GROWTH CENTER`;
+📱 WhatsApp:
+03162423759
 
-    const telegramResponse = await fetch(
+📢 WhatsApp Channel:
+https://whatsapp.com/channel/0029VbBlWD0EKyZNFSYWek45
+
+━━━━━━━━━━━━━━━━━━
+`;
+
+    const response = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
           chat_id: chatId,
           text: message
@@ -83,26 +68,23 @@ ${feedback.trim()}
       }
     );
 
-    const result = await telegramResponse.json();
+    const result = await response.json();
 
-    if (!telegramResponse.ok || !result.ok) {
+    if (!response.ok || !result.ok) {
       return res.status(502).json({
         error: "Telegram delivery failed"
       });
     }
 
     return res.status(200).json({
-      success: true,
-      message: "Notification sent successfully"
+      success: true
     });
 
   } catch (error) {
-
     console.error("Notification error:", error);
 
     return res.status(500).json({
       error: "Internal server error"
     });
-
   }
 }
