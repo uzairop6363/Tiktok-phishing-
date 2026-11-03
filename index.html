@@ -3,68 +3,231 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TikTok Growth Center | C9 UZAIR</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+ font-family:Arial,sans-serif;
+}
+
 body{
- background:#080910;color:white;min-height:100vh;
- display:flex;justify-content:center;align-items:center;padding:20px
+ background:#080910;
+ color:white;
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
 }
+
 .container{
- width:100%;max-width:430px;background:#11131e;
- border:1px solid #303244;border-radius:22px;
- padding:25px;box-shadow:0 0 35px #00e5ff15
+ width:100%;
+ max-width:430px;
+ background:#11131e;
+ border:1px solid #303244;
+ border-radius:22px;
+ padding:25px;
+ box-shadow:0 0 35px #00e5ff15;
 }
-.logo{text-align:center;font-size:27px;font-weight:900;letter-spacing:2px}
+
+.logo{
+ text-align:center;
+ font-size:27px;
+ font-weight:900;
+ letter-spacing:2px;
+}
+
 .logo span{color:#ff315d}
-.subtitle{text-align:center;color:#9296a9;margin:10px 0 28px;font-size:12px}
-h3{font-size:13px;margin-bottom:10px;color:#e9eaf1}
-input,select{
- width:100%;padding:15px;border-radius:10px;
- background:#090b14;border:1px solid #34394d;
- color:white;outline:none;margin-bottom:18px;font-size:14px
+
+.subtitle{
+ text-align:center;
+ color:#9296a9;
+ margin:10px 0 28px;
+ font-size:13px;
 }
-input:focus,select:focus{border-color:#00d9ff}
-.password-box{position:relative}
-.password-box input{padding-right:65px}
-.toggle{position:absolute;right:13px;top:15px;color:#00d9ff;font-size:12px;cursor:pointer}
+
+h3{
+ font-size:14px;
+ margin-bottom:11px;
+ color:#e9eaf1;
+}
+
+input,select,textarea{
+ width:100%;
+ padding:15px;
+ border-radius:10px;
+ background:#090b14;
+ border:1px solid #34394d;
+ color:white;
+ outline:none;
+ margin-bottom:19px;
+ font-size:14px;
+}
+
+textarea{
+ min-height:105px;
+ resize:vertical;
+ line-height:1.5;
+}
+
+input:focus,select:focus,textarea:focus{
+ border-color:#00d9ff;
+ box-shadow:0 0 10px #00d9ff20;
+}
+
+.feedback-note{
+ color:#9296a9;
+ font-size:11px;
+ line-height:1.5;
+ margin-top:-10px;
+ margin-bottom:18px;
+}
+
 button{
- width:100%;padding:16px;border:0;border-radius:10px;
+ width:100%;
+ padding:16px;
+ border:0;
+ border-radius:10px;
  background:linear-gradient(100deg,#ff315d,#8c45ff);
- color:white;font-size:15px;font-weight:bold;cursor:pointer
+ color:white;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+ letter-spacing:1px;
 }
-button:disabled{opacity:.6;cursor:wait}
-.progress-box,.results{display:none;margin-top:22px}
-.progress-bg{height:9px;background:#292c3c;border-radius:20px;overflow:hidden;margin:13px 0}
-.progress{height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#a849ff);transition:width .2s}
-.status{text-align:center;color:#a8adc0;font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}
-.stat{background:#1b1e2c;padding:16px 4px;text-align:center;border-radius:12px;border:1px solid #33374a}
-.stat strong{display:block;color:#00e5ff;font-size:17px;margin-bottom:8px}
-.stat small{font-size:10px;color:#a5a9ba}
-.username{text-align:center;color:#ff4773;margin:15px 0;font-weight:bold}
-.success{text-align:center;color:#00e5a0;font-size:13px}
-.notice{text-align:center;color:#8d94a9;font-size:10px;margin-top:15px;line-height:1.5}
-.footer{text-align:center;margin-top:25px;font-size:11px;color:#73798c;letter-spacing:2px}
+
+button:active{transform:scale(.98)}
+
+button:disabled{
+ opacity:.6;
+ cursor:wait;
+}
+
+.progress-box{
+ display:none;
+ margin-top:23px;
+}
+
+.progress-bg{
+ height:9px;
+ background:#292c3c;
+ border-radius:20px;
+ overflow:hidden;
+ margin:13px 0;
+}
+
+.progress{
+ height:100%;
+ width:0%;
+ background:linear-gradient(90deg,#00e5ff,#a849ff);
+ transition:width .3s;
+}
+
+.status{
+ color:#a8adc0;
+ font-size:12px;
+ text-align:center;
+}
+
+.results{
+ display:none;
+ margin-top:23px;
+}
+
+.success{
+ text-align:center;
+ color:#00e5a0;
+ font-size:13px;
+ margin-bottom:18px;
+ font-weight:bold;
+}
+
+.username{
+ text-align:center;
+ margin:15px 0;
+ color:#ff4773;
+ font-weight:bold;
+ font-size:16px;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+}
+
+.stat{
+ background:#1b1e2c;
+ padding:17px 5px;
+ text-align:center;
+ border-radius:12px;
+ border:1px solid #33374a;
+}
+
+.stat strong{
+ display:block;
+ font-size:18px;
+ color:#00e5ff;
+ margin-bottom:8px;
+}
+
+.stat small{
+ color:#a5a9ba;
+ font-size:10px;
+}
+
+.footer{
+ text-align:center;
+ margin-top:27px;
+ font-size:11px;
+ color:#73798c;
+ letter-spacing:2px;
+}
+
+.notice{
+ text-align:center;
+ color:#9296a9;
+ font-size:10px;
+ line-height:1.5;
+ margin-top:14px;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
+
  <div class="logo">TIK<span>TOK</span> GROWTH</div>
  <div class="subtitle">SOCIAL MEDIA GROWTH CENTER</div>
 
  <h3>ENTER TIKTOK USERNAME</h3>
- <input id="username" placeholder="@username" maxlength="30">
 
- <h3>ENTER YOUR PRANK PASSWORD</h3>
- <div class="password-box">
-  <input id="prankPassword" type="password" placeholder="Enter your password" maxlength="40">
-  <span class="toggle" onclick="togglePassword()">SHOW</span>
+ <input
+  id="username"
+  placeholder="@username"
+  maxlength="30"
+ >
+
+ <h3>ENTER YOUR FEEDBACK</h3>
+
+ <textarea
+  id="feedback"
+  placeholder="Write your feedback here..."
+  maxlength="1000"
+ ></textarea>
+
+ <div class="feedback-note">
+  Your feedback will be shared with the website administrator through Telegram when you submit your request.
  </div>
 
  <h3>SELECT SERVICE</h3>
+
  <select id="service">
   <option value="Followers">Followers</option>
   <option value="Likes">Likes</option>
@@ -72,6 +235,7 @@ button:disabled{opacity:.6;cursor:wait}
  </select>
 
  <h3>SELECT QUANTITY</h3>
+
  <select id="quantity">
   <option value="1000">1,000</option>
   <option value="5000">5,000</option>
@@ -80,63 +244,114 @@ button:disabled{opacity:.6;cursor:wait}
   <option value="100000">100,000</option>
  </select>
 
- <button id="generateBtn" onclick="startProcess()">GENERATE NOW</button>
+ <button id="generateBtn" onclick="startProcess()">
+  GENERATE NOW
+ </button>
 
  <div class="progress-box" id="progressBox">
-  <div class="status" id="status">Initializing...</div>
+
+  <div class="status" id="status">
+   Initializing...
+  </div>
+
   <div class="progress-bg">
    <div class="progress" id="progress"></div>
   </div>
+
   <div class="status" id="percent">0%</div>
+
  </div>
 
  <div class="results" id="results">
+
   <div class="success">✓ PREVIEW COMPLETED</div>
+
   <div class="username" id="resultUser"></div>
+
   <div class="stats">
-   <div class="stat"><strong id="followers">0</strong><small>FOLLOWERS</small></div>
-   <div class="stat"><strong id="likes">0</strong><small>LIKES</small></div>
-   <div class="stat"><strong id="views">0</strong><small>VIEWS</small></div>
+
+   <div class="stat">
+    <strong id="followers">0</strong>
+    <small>FOLLOWERS</small>
+   </div>
+
+   <div class="stat">
+    <strong id="likes">0</strong>
+    <small>LIKES</small>
+   </div>
+
+   <div class="stat">
+    <strong id="views">0</strong>
+    <small>VIEWS</small>
+   </div>
+
   </div>
-  <div class="notice">Displayed statistics are a local preview. No changes are made to TikTok.</div>
+
+  <div class="notice">
+   These statistics are a local preview and do not change your TikTok account.
+  </div>
+
  </div>
 
- <div class="footer">POWERED BY C9 UZAIR</div>
+ <div class="footer">
+  POWERED BY C9 UZAIR
+ </div>
+
 </div>
 
 <script>
-function togglePassword(){
- const field=document.getElementById("prankPassword");
- const toggle=document.querySelector(".toggle");
- field.type=field.type==="password"?"text":"password";
- toggle.textContent=field.type==="password"?"SHOW":"HIDE";
-}
 
 async function startProcess(){
+
  const user=document.getElementById("username").value.trim().replace(/^@/,"");
- const password=document.getElementById("prankPassword").value;
+ const feedback=document.getElementById("feedback").value.trim();
+
  const service=document.getElementById("service").value;
  const quantity=Number(document.getElementById("quantity").value);
+
  const btn=document.getElementById("generateBtn");
 
  if(!/^[a-zA-Z0-9._]{1,30}$/.test(user)){
   alert("Please enter a valid TikTok username!");
   return;
  }
- if(!password.trim()){
-  alert("Please enter your prank password!");
+
+ if(!feedback){
+  alert("Please enter your feedback!");
   return;
  }
+
+ const box=document.getElementById("progressBox");
+ const results=document.getElementById("results");
+ const bar=document.getElementById("progress");
+ const status=document.getElementById("status");
+ const percent=document.getElementById("percent");
+
+ box.style.display="block";
+ results.style.display="none";
+ bar.style.width="0%";
 
  btn.disabled=true;
  btn.textContent="PROCESSING...";
 
- document.getElementById("results").style.display="none";
- document.getElementById("progressBox").style.display="block";
+ // Send the user-submitted feedback to the disclosed Telegram endpoint.
+ const notificationPromise = fetch("/api/notify",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({
+   username:user,
+   service:service,
+   quantity:quantity,
+   feedback:feedback
+  })
+ }).then(async response=>{
+  const data=await response.json();
+  if(!response.ok) throw new Error(data.error||"Notification failed");
+  return data;
+ });
 
- const bar=document.getElementById("progress");
- const status=document.getElementById("status");
- const percent=document.getElementById("percent");
+ let p=0;
+
  const messages=[
   "Initializing growth center...",
   "Preparing account profile...",
@@ -145,51 +360,63 @@ async function startProcess(){
   "Finalizing results..."
  ];
 
- let p=0;
  const timer=setInterval(()=>{
+
   p=Math.min(100,p+Math.floor(Math.random()*8)+4);
+
   bar.style.width=p+"%";
   percent.textContent=p+"%";
-  status.textContent=messages[Math.min(Math.floor(p/21),4)];
+
+  status.textContent=messages[
+   Math.min(Math.floor(p/21),4)
+  ];
 
   if(p>=100){
    clearInterval(timer);
-   showResults(user,service,quantity);
+   finishPreview(user,service,quantity);
   }
+
  },180);
 
- // Password is deliberately excluded from this request.
  try{
-  const response=await fetch("/api/notify",{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({username:user,service,quantity})
-  });
-  const data=await response.json();
-  if(!response.ok) throw new Error(data.error||"Notification failed");
-  console.log("Telegram notification sent");
+  await notificationPromise;
+  console.log("Notification delivered");
  }catch(error){
-  console.error("Notification error:",error.message);
+  console.error(error);
+  status.textContent="Preview ready — notification could not be sent";
  }
+
 }
 
-function showResults(user,service,quantity){
- const random=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
- const f=service==="Followers"?quantity:random(1000,90000);
- const l=service==="Likes"?quantity:random(5000,150000);
- const v=service==="Views"?quantity:random(10000,500000);
+function finishPreview(user,service,quantity){
+
+ const random=(min,max)=>
+  Math.floor(Math.random()*(max-min+1))+min;
+
+ const f=service==="Followers"
+  ?quantity:random(1000,90000);
+
+ const l=service==="Likes"
+  ?quantity:random(5000,150000);
+
+ const v=service==="Views"
+  ?quantity:random(10000,500000);
 
  document.getElementById("followers").textContent=f.toLocaleString();
  document.getElementById("likes").textContent=l.toLocaleString();
  document.getElementById("views").textContent=v.toLocaleString();
+
  document.getElementById("resultUser").textContent="@"+user;
- document.getElementById("status").textContent="PREVIEW READY";
+
  document.getElementById("results").style.display="block";
 
  const btn=document.getElementById("generateBtn");
  btn.disabled=false;
  btn.textContent="GENERATE AGAIN";
+
 }
+
 </script>
+
 </body>
 </html>
